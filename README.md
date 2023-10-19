@@ -1,6 +1,10 @@
 # erela.js - Updated & Improved by BinaryBlazer and Tomato6966
 ### ❗the old fork by Tomato6966 was not maintained anymore and I'am the new verified maintainer for his fork of erela.js.
 
+> Instead Tomato6966 made a new lavalink wrapper. Go check it out if you wan't: [github.com/Tomato6966/lavalink-client](https://github.com/Tomato6966/lavalink-client)
+
+----
+
 Check out the [slimmed](https://github.com/binary-blazer/erela.js/tree/slimmed) Version, which is lavalink-v4 only and allows you to save up to 25% of memory usage than with the normal feature rich erela.js version (however you loose some properties...)
 
 An up to date Lavalink Wrapper, which makes it easy to use Lavalink within your Discord Bot!
