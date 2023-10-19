@@ -35,8 +35,6 @@ export declare abstract class TrackUtils {
      * @param requester
      */
     static buildUnresolved(query: string | UnresolvedQuery, requester?: unknown): UnresolvedTrack;
-    /** @hidden */
-    private static isvalidUri;
     static getClosestTrack(unresolvedTrack: UnresolvedTrack, customNode?: Node): Promise<Track>;
 }
 /** Gets or extends structures to extend the built in, or already extended, classes to add more functionality. */
@@ -70,8 +68,6 @@ export interface UnresolvedQuery {
     artworkUrl: string | null;
     /** Identifier of the track */
     identifier?: string;
-    /** The Uri of the track | if provided it will search via uri */
-    uri?: string;
     /** If it's a local track */
     local?: boolean;
 }
@@ -174,9 +170,6 @@ export interface LavalinkPlayerVoice {
     ping?: number;
 }
 export interface TrackData {
-    /** @deprecated */
-    track?: string;
-    encoded?: string;
     encodedTrack?: string;
     info: Partial<TrackDataInfoExtended>;
     pluginInfo: Partial<PluginDataInfo> | Record<string, string | number>;

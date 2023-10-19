@@ -1,7 +1,51 @@
-# erela.js - Updated & Improved by BinaryBlazer and Tomato6966
-### ❗the old fork by Tomato6966 was not maintained anymore and I'am the new verified maintainer for his fork of erela.js.
+## FORK - SLIM!
 
-Check out the [slimmed](https://github.com/binary-blazer/erela.js/tree/slim) Version, which is lavalink-v4 only and allows you to save up to 25% of memory usage than with the normal feature rich erela.js version (however you loose some properties...)
+In this branche, everything unrelated is removed.
+And all the code to keep support for v2 and v3 is also gone.
+It is made to make your bot memory usage as low as possible
+
+Things removed / changed:
+
+`queue.totalSize` -> Removed (can be calculated manually via `queue.size + (queue.current ? 1 : 0)`)
+
+`queue.duration` -> Removed (can be calculated manually by doing: `queue.reduce((a, b) => a + b.duration, 0)`)
+
+`queue.remove` -> Removed (can be all done via queue.splice)
+
+
+
+`track.thumbnail` -> Removed (`track.artworkUrl` is the same)
+
+`track.displayThumbnail` -> Removed
+
+`track.isPreview` -> Removed (not needed)
+
+`track.track` -> Removed (base64 encoded string) (`track.encodedString` is the new accessable variable)
+
+`track.encoded` -> Removed (base64 encoded string) (`track.encodedString` is the new accessable variable)
+
+`track.isrc` -> Removed (usually not needed)
+
+`track.sourceName` -> Removed (can be found manually by applying Manager.regex's to the track.uri and finding the track sourceName like that (if needed))
+
+
+#### Suggestions to keep memory usage lower:
+the #requester which you provide by (`message.author` / `interaction.user` for example or `interaction.member`) can be anything you want, it's local for the client, so you know who requested what track, do something like that:
+```js
+export function transformRequester(requester) {
+    if(!requester) return null;
+    return {
+        id: requester.id,
+        username: requester.username,
+        avatar: requester.displayAvatarURL(),
+    } 
+    // example Use: 
+    //      embed.addFields([ { name: `Requester`, value: `${track.requester.username} | Mention: <@${track.requester.id}>` } ])
+    //           .setFooter({ text: `Requester-Id: ${track.requester.id}`, iconUrl: track.requester.avatar })
+}
+```
+
+# erela.js - Updated & Improved by BinaryBlazer and Tomato6966
 
 An up to date Lavalink Wrapper, which makes it easy to use Lavalink within your Discord Bot!
 - Works in Typescript, CommonJS and ModuleJS
@@ -13,7 +57,7 @@ An up to date Lavalink Wrapper, which makes it easy to use Lavalink within your 
 
 ## Maintained + improved Fork from the official [menudocs/erela.js repository](https://github.com/menudocs/erela.js)!
 
-Within this Repository, Tomato6966 did:
+Within this Repository, I did:
 - updated erela.js to support Latest Lavalink Features (Sessions, REST-API, etc.)
 - Added new [Features](#new-features---tutorials)
 
@@ -773,7 +817,7 @@ switch (data.t) {
 ### Example Manager + Usage
 
 ```js
-const { Manager } = require("erela.js"); // npm i Tomato6966/erela.js
+const { Manager } = require("erela.js"); // npm i binary-blazer/erela.js
 const Deezer = require("better-erela.js-deezer"); // npm i Tomato6966/better-erela.js-deezer
 const BandCampSearch = require("erela.js-bandcamp-search"); // npm i Tomato6966/erela.js-bandcamp-search"
   
