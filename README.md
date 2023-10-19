@@ -1,5 +1,5 @@
 # erela.js - Updated & Improved by BinaryBlazer and Tomato6966
-### ❗the old fork by Tomato6966 was not maintained anymore and I'am the new verified maintainer for his fork of erela.js.
+### ❗the old fork by Tomato6966 was not maintained anymore and I'am maintaining his fork of erela.js now.
 
 > Instead Tomato6966 made a new lavalink wrapper. Go check it out if you wan't: [github.com/Tomato6966/lavalink-client](https://github.com/Tomato6966/lavalink-client)
 
