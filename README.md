@@ -773,7 +773,7 @@ switch (data.t) {
 ### Example Manager + Usage
 
 ```js
-const { Manager } = require("erela.js"); // npm i Tomato6966/erela.js
+const { Manager } = require("erela.js"); // npm i binary-blazer/erela.js
 const Deezer = require("better-erela.js-deezer"); // npm i Tomato6966/better-erela.js-deezer
 const BandCampSearch = require("erela.js-bandcamp-search"); // npm i Tomato6966/erela.js-bandcamp-search"
   
