@@ -704,9 +704,14 @@ export interface ReverbFilter {
   delay: number
   decay: number
 }
+export interface BassboostFilter {
+  gain: number
+  threshold: number
+}
 export interface LavalinkFilterData {
   volume?: number;
   equalizer?: EQBand[];
+  bassboost?: BassboostFilter;
   karaoke?: KaraokeFilter;
   timescale?: TimescaleFilter;
   tremolo?: FreqFilter;
