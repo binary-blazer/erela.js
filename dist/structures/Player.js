@@ -180,6 +180,7 @@ class Player {
         this.filters = {
             volume: false,
             vaporwave: false,
+            bassboost: false,
             custom: false,
             nightcore: false,
             echo: false,
@@ -226,6 +227,10 @@ class Player {
                 frequency: 0,
                 depth: 0 // 0 < x = 1
             },
+            bassboost: {
+                gain: 0,
+                threshold: 0
+            },
             channelMix: exports.validAudioOutputs.stereo,
             /*distortion: {
                 sinOffset: 0,
@@ -244,6 +249,7 @@ class Player {
     }
     checkFiltersState(oldFilterTimescale) {
         this.filters.rotation = this.filterData.rotation.rotationHz !== 0;
+        this.filters.bassboost = this.filterData.bassboost.gain !== 0 || this.filterData.bassboost.threshold !== 0;
         this.filters.vibrato = this.filterData.vibrato.frequency !== 0 || this.filterData.vibrato.depth !== 0;
         this.filters.tremolo = this.filterData.tremolo.frequency !== 0 || this.filterData.tremolo.depth !== 0;
         this.filters.echo = this.filterData.echo.decay !== 0 || this.filterData.echo.delay !== 0;
@@ -265,6 +271,7 @@ class Player {
     async resetFilters() {
         this.filters.echo = false;
         this.filters.reverb = false;
+        this.filters.bassboost = false;
         this.filters.nightcore = false;
         this.filters.lowPass = false;
         this.filters.rotating = false;
@@ -280,6 +287,10 @@ class Player {
             volume: 1,
             lowPass: {
                 smoothing: 0
+            },
+            bassboost: {
+                gain: 0,
+                threshold: 0
             },
             karaoke: {
                 level: 0,
@@ -347,6 +358,7 @@ class Player {
             this.filterData.timescale.rate = 1;
             this.filters.nightcore = false;
             this.filters.vaporwave = false;
+            this.filters.bassboost = false;
         }
         this.filterData.timescale.speed = speed;
         // check if custom filter is active / not
@@ -369,6 +381,7 @@ class Player {
             this.filterData.timescale.rate = 1;
             this.filters.nightcore = false;
             this.filters.vaporwave = false;
+            this.filters.bassboost = false;
         }
         this.filterData.timescale.pitch = pitch;
         // check if custom filter is active / not
@@ -391,8 +404,55 @@ class Player {
             this.filterData.timescale.rate = 1;
             this.filters.nightcore = false;
             this.filters.vaporwave = false;
+            this.filters.bassboost = false;
         }
         this.filterData.timescale.rate = rate;
+        // check if custom filter is active / not
+        this.isCustomFilterActive();
+        await this.updatePlayerFilters();
+        return this.filters.custom;
+    }
+    /**
+     * Set custom filter.bassboost#gain . This method disabled both: nightcore & vaporwave. use 0 to reset it to normal
+     * @param gain
+     * @returns
+     */
+    async setBassboostGain(gain = 0) {
+        if (this.node.info && !this.node.info?.filters?.includes("bassboost"))
+            throw new Error("Node#Info#filters does not include the 'bassboost' Filter (Node has it not enable)");
+        // reset nightcore / vaporwave filter if enabled
+        if (this.filters.nightcore || this.filters.vaporwave) {
+            this.filterData.timescale.pitch = 1;
+            this.filterData.timescale.speed = 1;
+            this.filterData.timescale.rate = 1;
+            this.filters.nightcore = false;
+            this.filters.vaporwave = false;
+            this.filters.bassboost = false;
+        }
+        this.filterData.bassboost.gain = gain;
+        // check if custom filter is active / not
+        this.isCustomFilterActive();
+        await this.updatePlayerFilters();
+        return this.filters.custom;
+    }
+    /**
+     * Set custom filter.bassboost#threshold . This method disabled both: nightcore & vaporwave. use 0 to reset it to normal
+     * @param gain
+     * @returns
+     */
+    async setBassboostThreshold(threshold = 0) {
+        if (this.node.info && !this.node.info?.filters?.includes("bassboost"))
+            throw new Error("Node#Info#filters does not include the 'bassboost' Filter (Node has it not enable)");
+        // reset nightcore / vaporwave filter if enabled
+        if (this.filters.nightcore || this.filters.vaporwave) {
+            this.filterData.timescale.pitch = 1;
+            this.filterData.timescale.speed = 1;
+            this.filterData.timescale.rate = 1;
+            this.filters.nightcore = false;
+            this.filters.vaporwave = false;
+            this.filters.bassboost = false;
+        }
+        this.filterData.bassboost.threshold = threshold;
         // check if custom filter is active / not
         this.isCustomFilterActive();
         await this.updatePlayerFilters();
@@ -440,6 +500,21 @@ class Player {
         this.filters.vibrato = !this.filters.vibrato;
         await this.updatePlayerFilters();
         return this.filters.vibrato;
+    }
+    /**
+     * Enables / Disables the Bassboost effect, (Optional: provide your Own Data)
+     * @param gain
+     * @param threshold
+     * @returns
+     */
+    async toggleBassboost(gain = 0.5, threshold = 0.5) {
+        if (this.node.info && !this.node.info?.filters?.includes("bassboost"))
+            throw new Error("Node#Info#filters does not include the 'bassboost' Filter (Node has it not enable)");
+        this.filterData.bassboost.gain = this.filters.bassboost ? 0 : gain;
+        this.filterData.bassboost.threshold = this.filters.bassboost ? 0 : threshold;
+        this.filters.bassboost = !this.filters.bassboost;
+        await this.updatePlayerFilters();
+        return this.filters.bassboost;
     }
     /**
      * Enabels / Disables the Tremolo effect, (Optional: provide your Own Data)

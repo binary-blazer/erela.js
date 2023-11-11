@@ -412,7 +412,7 @@ export class Node {
 
     if(options.method === "DELETE") return;
 
-    return await request.body.json();
+    return await (request.body.json() as Promise<unknown>) as T;
   }
 
   /**
