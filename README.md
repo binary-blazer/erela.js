@@ -1,3 +1,5 @@
+![erela.js](https://raw.githubusercontent.com/binary-blazer/repo-svgs/main/out/erela.js/image.svg)
+
 # erela.js - Updated & Improved by BinaryBlazer and Tomato6966
 ### ❗the old fork by Tomato6966 was not maintained anymore and I'am maintaining his fork of erela.js now.
 
